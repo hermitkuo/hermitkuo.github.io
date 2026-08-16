@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深海上望</title>
+  <style>
+    :root {
+      --bg-deep: #0a1422;
+      --bg-layer: rgba(10, 20, 34, 0.85);
+      --bg-light: rgba(22, 45, 61, 0.75);
+      --accent: #5ec4e8;
+      --accent-dim: #3a9fb8;
+      --text-primary: #e8f4f8;
+      --text-secondary: #b8d0dc;
+      --text-dim: #7a92a0;
+      --border: #2a4d5d;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg-deep: #f8fafb;
+        --bg-layer: rgba(239, 243, 245, 0.9);
+        --bg-light: rgba(232, 240, 245, 0.85);
+        --accent: #0a7a9e;
+        --accent-dim: #1a95b8;
+        --text-primary: #1a2d3d;
+        --text-secondary: #4a5f6d;
+        --text-dim: #8a9fad;
+        --border: #d0dce5;
+      }
+    }
+
+    :root[data-theme="light"] {
+      --bg-deep: #f8fafb;
+      --bg-layer: rgba(239, 243, 245, 0.9);
+      --bg-light: rgba(232, 240, 245, 0.85);
+      --accent: #0a7a9e;
+      --accent-dim: #1a95b8;
+      --text-primary: #1a2d3d;
+      --text-secondary: #4a5f6d;
+      --text-dim: #8a9fad;
+      --border: #d0dce5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Roboto, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background image */
+    #background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    /* Dark overlay */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(10, 20, 34, 0.4) 0%, rgba(10, 20, 34, 0.6) 50%, rgba(10, 20, 34, 0.8) 100%);
+      z-index: -1;
+    }
+
+    /* Hero section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      backdrop-filter: blur(0.5px);
+    }
+
+    .hero-content {
+      max-width: 600px;
+      animation: fadeInUp 1.2s ease-out 0.6s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 0.875rem 2.5rem;
+      background: var(--accent);
+      color: var(--bg-deep);
+      border: none;
+      border-radius: 2px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      letter-spacing: 0.05em;
+    }
+
+    .cta-button:hover {
+      background: var(--accent-dim);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(94, 196, 232, 0.2);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.6;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+
+    /* Content sections */
+    .section {
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(0.5px);
+    }
+
+    .section-content {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .section h2 {
+      font-family: Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .section p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .section:nth-child(even) {
+      background: linear-gradient(135deg, rgba(22, 45, 61, 0.3) 0%, rgba(10, 20, 34, 0.1) 100%);
+    }
+
+    /* Accent line */
+    .accent-bar {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .section h2 {
+        font-size: 1.8rem;
+      }
+
+      .section p {
+        font-size: 1rem;
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img id="background-image" src="https://images.unsplash.com/photo-rdT-2KzHuCY?w=1400&q=80&auto=format&fit=crop" alt="castle in the sea" loading="lazy">
+  <div id="overlay"></div>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>深海上望</h1>
+      <p class="tagline">在黑暗深處，尋找光的方向</p>
+      <a href="#explore" class="cta-button">探索故事</a>
+    </div>
+    <div class="scroll-hint">↓</div>
+  </section>
+
+  <section class="section" id="explore">
+    <div class="section-content">
+      <div class="accent-bar"></div>
+      <h2>潛行者的姿態</h2>
+      <p>就像深海潛艇向上仰望破冰船的光芒，我們總是在黑暗中尋找方向。每一次向上的嘗試，都是對光的信念。</p>
+      <p>深度教人謙遜，但仰望教人堅毅。在那片寧靜的深藍裡，思考變得澄澈，目標變得明確。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-content">
+      <div class="accent-bar"></div>
+      <h2>破冰之光</h2>
+      <p>破冰船緩緩前行，留下一條通道。光線穿透冰層，照亮了未知的深處。那道光不只照亮別人，也讓我們看清自己。</p>
+      <p>每一個項目、每一次嘗試，都像是那一道光——帶來改變，帶來可能。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-content">
+      <div class="accent-bar"></div>
+      <h2>向上浮起</h2>
+      <p>潛艇不會永遠停留在深海。它向上浮起，帶著知識與經驗，回到光明的世界。</p>
+      <p>每一次的沉潛都是為了更好的上升。讓我們一起，從深度走向高度。</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>深海上望 © 2026 | 從潛深到探光</p>
+  </footer>
+
+  <script>
+    const bgImage = document.getElementById('background-image');
+    const overlay = document.getElementById('overlay');
+
+    // Parallax effect on scroll
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      bgImage.style.transform = `translateY(${scrollY * 0.3}px) scale(1.05)`;
+      overlay.style.opacity = Math.min(0.9, 0.6 + scrollY / 500);
+    });
+
+    // Lazy load optimization
+    if ('loading' in HTMLImageElement.prototype) {
+      // Browser supports lazy loading
+    } else {
+      // Fallback for older browsers
+      bgImage.src = bgImage.dataset.src || bgImage.src;
+    }
+  </script>
+</body>
+</html>
