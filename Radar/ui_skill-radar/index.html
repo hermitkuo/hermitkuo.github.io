@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Frontend Design Skill Radar — 2026-08-17</title>
+<style>
+:root{
+  --bg:#0b1020;--panel:#11182a;--panel2:#151f35;--line:#25304a;
+  --text:#f4f7fb;--muted:#9eabc2;--blue:#6ea8ff;--green:#56d49b;
+  --yellow:#ffd166;--red:#ff7b7b;--purple:#b388ff;--cyan:#62d8e8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  background:
+    radial-gradient(circle at 0 0,rgba(110,168,255,.14),transparent 28%),
+    radial-gradient(circle at 100% 0,rgba(179,136,255,.11),transparent 24%),
+    var(--bg);
+  color:var(--text);line-height:1.6
+}
+.wrap{max-width:1260px;margin:auto;padding:28px 22px 56px}
+.hero{
+  padding:42px;border:1px solid var(--line);border-radius:28px;
+  background:linear-gradient(135deg,rgba(21,31,53,.96),rgba(11,16,32,.94));
+  box-shadow:0 24px 70px rgba(0,0,0,.28)
+}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(34px,5vw,62px);line-height:1.04;margin:10px 0 16px}
+.hero p{max-width:860px;color:#c5d0e3;font-size:18px;margin:0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.metric{padding:18px;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:16px}
+.metric b{font-size:27px;display:block}.metric span{font-size:12px;color:var(--muted)}
+.nav{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 30px}
+.nav a{color:#dbe7fa;text-decoration:none;border:1px solid var(--line);padding:9px 13px;border-radius:999px;background:#0e1526;font-size:13px}
+section{margin-top:34px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:15px}
+h2{font-size:28px;margin:0}.section-head p{margin:0;max-width:700px;color:var(--muted)}
+.panel{border:1px solid var(--line);background:rgba(17,24,42,.92);border-radius:22px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th,td{padding:14px 15px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{font-size:12px;color:#9fb0ca;text-transform:uppercase;letter-spacing:.05em;background:#0e1526}
+tr:last-child td{border-bottom:0}
+.rank{font-size:18px;font-weight:900;color:var(--blue)}
+.skill{font-weight:800}.small{font-size:12px;color:var(--muted)}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}
+.a{background:rgba(86,212,155,.13);color:#7be0ae}
+.b{background:rgba(255,209,102,.13);color:#ffd166}
+.hot{color:#ff9b8c}.up{color:#75dba8}.flat{color:#9fb0ca}.down{color:#ff8e8e}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{padding:21px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#131c30,#10172a)}
+.card h3{margin:4px 0 8px;font-size:20px}.card p{color:#b5c0d3;margin:0}
+.card ul{padding-left:18px;color:#c6d1e4}.card li{margin:6px 0}
+.num{font-size:12px;font-weight:900;color:var(--cyan);letter-spacing:.1em}
+.stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stack{padding:21px;border:1px solid var(--line);border-radius:20px;background:#11182a}
+.stack h3{margin:0 0 13px}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.node{padding:8px 10px;border:1px solid #32405e;background:#0d1425;border-radius:10px;font-size:12px}
+.arrow{color:#647897;font-weight:800}
+.change-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.change{padding:15px;border:1px solid var(--line);border-radius:16px;background:#11182a}
+.change b{display:block;margin-bottom:5px}.change span{font-size:12px;color:var(--muted)}
+.warning{border-left:4px solid var(--yellow);padding:19px 21px;background:#151c2d;border-radius:14px;color:#c8d2e4}
+.footer{margin-top:36px;text-align:center;color:#73829b;font-size:12px}
+@media(max-width:900px){.metrics,.change-grid{grid-template-columns:1fr 1fr}.cards,.stack-grid{grid-template-columns:1fr}.panel{overflow:auto}}
+@media(max-width:600px){.wrap{padding:16px 12px 40px}.hero{padding:27px 21px}.metrics{grid-template-columns:1fr 1fr}.section-head{display:block}table{min-width:780px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Agentic Design Intelligence · Weekly Radar</div>
+  <h1>Frontend Design Skill Radar</h1>
+  <p>2026-08-17｜聚焦投影片、網頁型投影片、網頁生成、UI/UX、視覺設計、動畫與設計審查。核心判斷：設計 Skill 生態正由單一大 Prompt 轉向「Router → Domain Skills → Build → Deterministic QA」。</p>
+  <div class="metrics">
+    <div class="metric"><b>10</b><span>本期核心 Skill</span></div>
+    <div class="metric"><b>2</b><span>本週強勢升溫新方向</span></div>
+    <div class="metric"><b>3</b><span>主要生產 Stack</span></div>
+    <div class="metric"><b>1</b><span>核心原則：避免多 Skill 同時搶決策</span></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <a href="#ranking">熱門排名</a>
+  <a href="#insights">重點洞察</a>
+  <a href="#changes">升降溫</a>
+  <a href="#stacks">推薦 Stack</a>
+  <a href="#notdo">Not-to-do</a>
+</nav>
+
+<section id="ranking">
+<div class="section-head">
+  <h2>本週熱門 Skill 排名</h2>
+  <p>排序綜合考量近期社群討論、維護活躍度、跨 Agent 可安裝性與實際交付價值，而非只看 stars。</p>
+</div>
+<div class="panel">
+<table>
+<thead><tr><th>#</th><th>Skill</th><th>趨勢</th><th>主要產出</th><th>角色定位</th><th>推薦</th></tr></thead>
+<tbody>
+<tr><td class="rank">1</td><td><div class="skill">UI Skills / CLI</div><div class="small">Design Skill Router</div></td><td class="hot">🆕 ↑↑</td><td>Web / UI / motion / a11y</td><td>依任務路由適當 Skill</td><td><span class="badge a">A+</span></td></tr>
+<tr><td class="rank">2</td><td><div class="skill">Emil Kowalski Skills</div><div class="small">Design engineering / animation</div></td><td class="up">↑↑</td><td>UI polish / motion</td><td>判斷何時該動、怎麼動</td><td><span class="badge a">A</span></td></tr>
+<tr><td class="rank">3</td><td><div class="skill">PPT Master</div></td><td class="up">↑</td><td>Native editable PPTX</td><td>正式企業簡報 Renderer</td><td><span class="badge a">A+</span></td></tr>
+<tr><td class="rank">4</td><td><div class="skill">Impeccable</div></td><td class="flat">→ ↑</td><td>Web / Dashboard / UI QA</td><td>Design QA Harness</td><td><span class="badge a">A+</span></td></tr>
+<tr><td class="rank">5</td><td><div class="skill">Frontend Slides</div></td><td class="flat">→</td><td>Single-file HTML deck</td><td>Web-native presentation</td><td><span class="badge a">A+</span></td></tr>
+<tr><td class="rank">6</td><td><div class="skill">Taste Skill</div></td><td class="flat">→</td><td>Landing / portfolio / redesign</td><td>視覺品味與 anti-slop</td><td><span class="badge b">B+</span></td></tr>
+<tr><td class="rank">7</td><td><div class="skill">Hallmark</div></td><td class="up">↑</td><td>Brand site / redesign</td><td>Design DNA + anti-slop gates</td><td><span class="badge b">B+</span></td></tr>
+<tr><td class="rank">8</td><td><div class="skill">Dashi PPT</div></td><td class="up">↑</td><td>Browser-edit → HTML/PDF/PPTX</td><td>人機共同編修簡報</td><td><span class="badge a">A−</span></td></tr>
+<tr><td class="rank">9</td><td><div class="skill">UI/UX Pro Max</div></td><td class="up">↑</td><td>Design-system knowledge</td><td>設計情報資料庫</td><td><span class="badge b">B+</span></td></tr>
+<tr><td class="rank">10</td><td><div class="skill">GSAP Skills</div></td><td class="flat">→</td><td>Timeline / ScrollTrigger / motion</td><td>動畫工程實作</td><td><span class="badge b">B</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="insights">
+<div class="section-head">
+  <h2>本週 8 個關鍵洞察</h2>
+  <p>真正重要的是每個 Skill 應負責哪一層判斷，而不是誰的 GitHub stars 最大。</p>
+</div>
+<div class="cards">
+  <article class="card"><div class="num">01 · ROUTING</div><h3>UI Skills 開始像 Design Skill Router</h3><p>價值不在一次載入 130+ Skills，而在於依任務動態選擇。這代表 Skill 生態開始從 collection 走向 orchestration。</p></article>
+  <article class="card"><div class="num">02 · MOTION</div><h3>動效設計與動畫工程正式拆開</h3><p>Emil Kowalski Skills 負責「要不要動、何時動、什麼節奏」，GSAP 負責「怎麼把它做出來」。</p></article>
+  <article class="card"><div class="num">03 · PPTX</div><h3>PPT Master 持續坐穩可編輯簡報核心</h3><p>Native shape、connector、chart、table、slide master 讓它更接近真正 PowerPoint production，而非 HTML 截圖包裝。</p></article>
+  <article class="card"><div class="num">04 · QA</div><h3>Impeccable 已成 Design QA Harness</h3><p>不應只視為美化 Skill。它更適合處理 critique、audit、harden、responsive、a11y 與 edge case。</p></article>
+  <article class="card"><div class="num">05 · WEB DECK</div><h3>Frontend Slides 的角色反而更清楚</h3><p>它不是最佳 PowerPoint，而是最乾淨的 Web-native presentation 路徑，適合技術架構、研究故事與可直接分享的 HTML deck。</p></article>
+  <article class="card"><div class="num">06 · BOUNDARY</div><h3>Taste Skill 應限定場景</h3><p>最適合 landing、portfolio、editorial redesign；不應主導高資訊密度 Dashboard、patient list 或多步驟臨床操作介面。</p></article>
+  <article class="card"><div class="num">07 · LINTING</div><h3>Hallmark 正從 taste rules 走向 mechanical QA</h3><p>值得追的是 checker / CI，而不是更多 theme。長期趨勢是 design taste → rule → machine-testable rule。</p></article>
+  <article class="card"><div class="num">08 · HUMAN LOOP</div><h3>Dashi 的價值是「AI 做完，人類接得回來」</h3><p>Browser edit → AI revise → editable PPTX 是重要方向。對真實簡報流程而言，人類 round-trip 往往比一次生成的美感更重要。</p></article>
+</div>
+</section>
+
+<section id="changes">
+<div class="section-head"><h2>本週升降溫</h2><p>只追「新」容易錯過真正進入成熟期的核心基礎設施。</p></div>
+<div class="change-grid">
+  <div class="change"><b>🆕 UI Skills</b><span>強勢新增；Router 架構最值得注意。</span></div>
+  <div class="change"><b>↑↑ Emil Skills</b><span>Motion judgment 開始成為獨立能力層。</span></div>
+  <div class="change"><b>↑ PPT Master</b><span>Editable PPTX 競爭往 native object 深度發展。</span></div>
+  <div class="change"><b>↑ Hallmark</b><span>朝 mechanical checker / CI 方向發展。</span></div>
+  <div class="change"><b>↑ UI/UX Pro Max</b><span>資料庫持續擴充，但建議 query-mode。</span></div>
+  <div class="change"><b>↑ Dashi PPT</b><span>Browser editing + human-in-the-loop 持續有價值。</span></div>
+  <div class="change"><b>→ Impeccable</b><span>成熟核心，不需要因短期熱度調整。</span></div>
+  <div class="change"><b>→ Frontend Slides</b><span>Web-slide 標準選項，地位穩定。</span></div>
+  <div class="change"><b>→ Taste / GSAP</b><span>用途明確，按場景啟用。</span></div>
+  <div class="change"><b>↓ HTML PPT Studio</b><span>功能完整，但差異化較弱。</span></div>
+  <div class="change"><b>停止維護</b><span>本期核心名單未確認有停止維護項目。</span></div>
+</div>
+</section>
+
+<section id="stacks">
+<div class="section-head">
+  <h2>推薦生產 Stack</h2>
+  <p>不要建立「一個超級設計 Agent」，而應讓各 Skill 各自負責清楚的責任邊界。</p>
+</div>
+<div class="stack-grid">
+  <div class="stack"><h3>Web / Dashboard</h3><div class="flow"><span class="node">UI Skills Router</span><span class="arrow">→</span><span class="node">Frontend Design / UIUX Query</span><span class="arrow">→</span><span class="node">Implementation</span><span class="arrow">→</span><span class="node">Impeccable QA</span></div></div>
+  <div class="stack"><h3>Motion</h3><div class="flow"><span class="node">Emil Opportunities</span><span class="arrow">→</span><span class="node">Emil Animate</span><span class="arrow">→</span><span class="node">GSAP</span><span class="arrow">→</span><span class="node">Review Animations</span></div></div>
+  <div class="stack"><h3>Web Presentation</h3><div class="flow"><span class="node">Frontend Slides</span><span class="arrow">→</span><span class="node">Impeccable</span><span class="arrow">→</span><span class="node">Browser QA</span></div></div>
+  <div class="stack"><h3>Formal PPTX</h3><div class="flow"><span class="node">PPT Master</span><span class="arrow">→</span><span class="node">Render QA</span><span class="arrow">→</span><span class="node">PowerPoint Human Finish</span></div></div>
+  <div class="stack"><h3>Human + AI Editing</h3><div class="flow"><span class="node">Dashi</span><span class="arrow">→</span><span class="node">Browser Edit</span><span class="arrow">→</span><span class="node">AI Revise</span><span class="arrow">→</span><span class="node">Editable PPTX</span></div></div>
+  <div class="stack"><h3>Brand / Editorial</h3><div class="flow"><span class="node">Taste or Hallmark</span><span class="arrow">→</span><span class="node">Implementation</span><span class="arrow">→</span><span class="node">Impeccable</span></div></div>
+</div>
+</section>
+
+<section id="notdo">
+<div class="section-head"><h2>Not-to-do</h2><p>最容易浪費時間的不是少裝一個 Skill，而是責任重疊與 context 污染。</p></div>
+<div class="cards">
+  <article class="card"><h3>不要一次載入 100+ UI Skills</h3><p>Router 的價值就是按需載入。全量常駐只會增加 context、規則衝突與不可預測性。</p></article>
+  <article class="card"><h3>不要讓四套設計哲學同時主導</h3><p>UI/UX Pro Max、Taste、Hallmark、Impeccable 應分別扮演資料庫、視覺方向、anti-slop build 與 QA，而不是同時發號施令。</p></article>
+  <article class="card"><h3>不要把 HTML PPT Studio 當唯一長期主線</h3><p>它功能完整，但目前在 Web 自由度、可編輯 PPTX、人機 round-trip 等面向都有更明確的替代方案。</p></article>
+  <article class="card"><h3>不要把社群熱度當導入理由</h3><p>真正的導入 gate 應是：可安裝性、維護狀態、輸出品質、工作流價值、授權與 repository provenance。</p></article>
+</div>
+<div class="warning">
+  <strong>本週如果只新增兩個：</strong> UI Skills 與 Emil Kowalski Skills。前者解決「該叫誰做」，後者解決「什麼情況不該做動效」。這代表 Design Skills 正從 prompt collection 走向真正的 orchestration 與 harness。
+</div>
+</section>
+
+<div class="footer">Frontend Design Skill Radar · 2026-08-17 · Single-file HTML</div>
+</div>
+</body>
+</html>
