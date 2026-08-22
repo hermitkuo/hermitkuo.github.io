@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermit Kuo</title>
+<meta name="description" content="UI and AI application in Kidney medicine">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #05060f;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: #fff;
+  }
+
+  /* 全版深色生成式背景，每次載入隨機 */
+  #bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+
+  #noise {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* 暗角，壓住四周讓文字浮出 */
+  #vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 45%, transparent 0%, rgba(3, 4, 10, 0.55) 75%, rgba(3, 4, 10, 0.85) 100%);
+  }
+
+  main {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .kicker {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 20px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 9vw, 6rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  }
+
+  .tagline {
+    margin-top: 22px;
+    font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 34em;
+    line-height: 1.7;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  nav {
+    margin-top: 44px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: 11px 26px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background 200ms ease, transform 200ms ease;
+  }
+
+  nav a:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+  }
+
+  footer {
+    position: fixed;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .fade { opacity: 0; transform: translateY(14px); animation: up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  @keyframes up { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+<div id="noise" aria-hidden="true"></div>
+<div id="vignette" aria-hidden="true"></div>
+
+<main>
+  <p class="kicker fade" style="animation-delay:.05s">Nephrology · AI · Interface</p>
+  <h1 class="fade" style="animation-delay:.15s">Hermit Kuo</h1>
+  <p class="tagline fade" style="animation-delay:.3s">UI and AI application in Kidney medicine</p>
+  <nav class="fade" style="animation-delay:.45s">
+    <a href="https://hermitkuo.github.io/Toy_2026/">Toy 2026</a>
+    <a href="/Radar/">Radar</a>
+    <a href="https://github.com/hermitkuo">GitHub</a>
+  </nav>
+</main>
+
+<footer>© 2026 Hermit Kuo</footer>
+
+<script>
+  // 深色隨機 mesh：每次載入以隨機色相與位置畫出輝光斑塊
+  (function () {
+    var canvas = document.getElementById('bg');
+    var ctx = canvas.getContext('2d');
+
+    function rand(min, max) { return min + Math.random() * (max - min); }
+
+    function paint() {
+      var w = canvas.width = window.innerWidth * devicePixelRatio;
+      var h = canvas.height = window.innerHeight * devicePixelRatio;
+
+      // 深色打底
+      var base = ctx.createLinearGradient(0, 0, w, h);
+      var baseHue = rand(200, 320);
+      base.addColorStop(0, 'hsl(' + baseHue + ', 45%, 7%)');
+      base.addColorStop(1, 'hsl(' + ((baseHue + rand(30, 80)) % 360) + ', 50%, 10%)');
+      ctx.fillStyle = base;
+      ctx.fillRect(0, 0, w, h);
+
+      // 5–7 個隨機輝光斑塊
+      var blobs = 5 + Math.floor(rand(0, 3));
+      for (var i = 0; i < blobs; i++) {
+        var x = rand(0, w), y = rand(0, h);
+        var r = rand(0.25, 0.55) * Math.max(w, h);
+        var hue = (baseHue + rand(-60, 120) + 360) % 360;
+        var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, 'hsla(' + hue + ', 70%, ' + rand(28, 45) + '%, ' + rand(0.18, 0.38) + ')');
+        g.addColorStop(1, 'hsla(' + hue + ', 70%, 20%, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, w, h);
+      }
+    }
+
+    paint();
+    var t;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(paint, 150);
+    });
+  })();
+</script>
+
+</body>
+</html>
